@@ -86,4 +86,4 @@ example/unity/DemoApp/Temp/
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
-example/unity/ARDemoApp/test
+example/unity/ARDemoApp/test.flutter-plugins-dependencies
