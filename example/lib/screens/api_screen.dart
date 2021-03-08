@@ -76,7 +76,7 @@ class _ApiScreenState extends State<ApiScreen> {
                       children: [
                         MaterialButton(
                           onPressed: () {
-                            _unityWidgetController.quit();
+                            _unityWidgetController.quit(silent: false);
                           },
                           child: Text("Quit"),
                         ),

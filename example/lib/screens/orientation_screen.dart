@@ -48,7 +48,7 @@ class _LoaderScreenState extends State<OrientationScreen> {
                 elevation: 10,
                 child: Column(
                   children: <Widget>[
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {
                         if (MediaQuery.of(context).orientation ==
                             Orientation.portrait) {
