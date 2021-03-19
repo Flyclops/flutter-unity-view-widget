@@ -18,6 +18,7 @@ private let constsection = 0
 var gArgc: Int32 = 0
 var gArgv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>? = nil
 var appLaunchOpts: [UIApplication.LaunchOptionsKey: Any]? = [:]
+var gMachHeader: UnsafeMutablePointer<MachHeader>? = nil
 
 /***********************************PLUGIN_ENTRY STARTS**************************************/
 public func InitUnityIntegration(argc: Int32, argv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?) {
@@ -28,6 +29,7 @@ public func InitUnityIntegration(argc: Int32, argv: UnsafeMutablePointer<UnsafeM
 public func InitUnityIntegrationWithOptions(
     argc: Int32,
     argv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?,
+    machHeader: UnsafeMutablePointer<MachHeader>,
     _ launchingOptions:  [UIApplication.LaunchOptionsKey: Any]?) {
     gArgc = argc
     gArgv = argv
@@ -45,8 +47,11 @@ func UnityFrameworkLoad() -> UnityFramework? {
     if bundle?.isLoaded == false {
         bundle?.load()
     }
-
-    return bundle?.principalClass?.getInstance()
+    let ufw = bundle?.principalClass?.getInstance()
+    if (ufw?.appController() == nil) {
+        ufw!.setExecuteHeader(gMachHeader)
+    }
+    return ufw
 }
 
 /*********************************** GLOBAL FUNCS & VARS START**************************************/
