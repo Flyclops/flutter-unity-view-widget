@@ -1,3 +1,15 @@
+## 4.2.1
+
+* Improved nullsafety
+
+## 4.2.0
+
+* Null safe merged to master
+
+## 4.1.0-null-safe
+
+* Fixed bitcode enabled issue on iOS. [369](https://github.com/juicycleff/flutter-unity-view-widget/issues/369)
+
 ## 4.1.0
 
 * Fixed bitcode enabled issue on iOS. [369](https://github.com/juicycleff/flutter-unity-view-widget/issues/369)
