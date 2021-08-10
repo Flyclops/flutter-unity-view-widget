@@ -49,7 +49,6 @@ class UnityPlayerUtils {
 
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                             val view = TextureView(activity)
-                            view.isOpaque = false
                             view.surfaceTextureListener = object: TextureView.SurfaceTextureListener {
                                 override fun onSurfaceTextureAvailable(surface: SurfaceTexture,  width: Int, height: Int) {
                                     unityPlayer!!.displayChanged(0, Surface(surface))
