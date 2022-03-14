@@ -1,5 +1,6 @@
 package com.xraph.plugin.flutter_unity_widget
 
+import android.app.Activity
 import android.content.Context
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.StandardMessageCodec
@@ -18,6 +19,18 @@ class FlutterUnityWidgetFactory(
 
         if (params.containsKey("fullscreen")) {
             builder.setFullscreenEnabled(params["fullscreen"] as Boolean)
+        }
+
+        if (params.containsKey("hideStatus")) {
+            builder.setHideStatusBar(params["hideStatus"] as Boolean)
+        }
+
+        if (params.containsKey("earlyInitUnity")) {
+            builder.setRunImmediately(params["earlyInitUnity"] as Boolean)
+        }
+
+        if (params.containsKey("unloadOnDispose")) {
+            builder.setUnloadOnDispose(params["unloadOnDispose"] as Boolean)
         }
 
         return builder.build(

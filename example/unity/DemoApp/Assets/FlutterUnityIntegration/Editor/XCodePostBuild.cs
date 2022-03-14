@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 Copyright (c) 2021 REX ISAAC RAPHAEL
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -105,8 +105,85 @@ public static class XcodePostBuild
     /// </summary>
     private static void PatchUnityNativeCode(string pathToBuiltProject)
     {
-        EditUnityAppControllerH(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.h"));
-        EditUnityAppControllerMM(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.mm"));
+        if (!CheckUnityAppController(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.h")))
+        {
+            EditUnityAppControllerH(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.h"));
+            MarkUnityAppControllerH(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.h"));
+        }
+
+        if (!CheckUnityAppController(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.mm")))
+        {
+            EditUnityAppControllerMM(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.mm"));
+            MarkUnityAppControllerMM(Path.Combine(pathToBuiltProject, "Classes/UnityAppController.mm"));
+        }
+    }
+
+    private static bool MarkUnityAppControllerH(string path)
+    {
+        var inScope = false;
+        var mark = false;
+        EditCodeFile(path, line =>
+        {
+            inScope |= line.Contains("include \"RenderPluginDelegate.h\"");
+            if (inScope)
+            {
+                if (line.Trim() == "")
+                {
+                    inScope = false;
+
+                    return new string[]
+                    {
+                        "",
+                        "// Edited by " + TouchedMarker,
+                        "",
+                    };
+                }
+
+                return new string[] { line };
+            }
+
+            return new string[] { line };
+        });
+        return mark;
+    }
+
+    private static bool MarkUnityAppControllerMM(string path)
+    {
+        var inScope = false;
+        var mark = false;
+        EditCodeFile(path, line =>
+        {
+            inScope |= line.Contains("#include <sys/sysctl.h>");
+            if (inScope)
+            {
+                if (line.Trim() == "")
+                {
+                    inScope = false;
+
+                    return new string[]
+                    {
+                        "",
+                        "// Edited by " + TouchedMarker,
+                        "",
+                    };
+                }
+
+                return new string[] { line };
+            }
+
+            return new string[] { line };
+        });
+        return mark;
+    }
+    private static bool CheckUnityAppController(string path)
+    {
+        var mark = false;
+        EditCodeFile(path, line =>
+        {
+            mark |= line.Contains("// Edited by " + TouchedMarker);
+            return new string[] { line };
+        });
+        return mark;
     }
 
     /// <summary>

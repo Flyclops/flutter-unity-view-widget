@@ -130,10 +130,10 @@ class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPlatformVi
                 superview.layoutIfNeeded()
             }
 
-            if let unityView = unityView {
-                fltUnityView.addSubview(unityView)
-            }
-            GetUnityPlayerUtils()?.resume()
+//            if let unityView = unityView {
+//                fltUnityView.addSubview(unityView)
+//            }
+//            GetUnityPlayerUtils()?.resume()
         }
     }
 
@@ -143,17 +143,20 @@ class FLTUnityWidgetController: NSObject, FLTUnityOptionsSink, FlutterPlatformVi
         if superview != fltUnityView {
             attachView()
         }
+        if GetUnityPlayerUtils() != nil {
+            GetUnityPlayerUtils()?.resume()
+        }
     }
     
     func dispose() {
         channel?.setMethodCallHandler(nil)
-        globalChannel?.setMethodCallHandler(nil)
+        // globalChannel?.setMethodCallHandler(nil)
         if GetUnityPlayerUtils() != nil {
             let unityView = GetUnityPlayerUtils()?.ufw?.appController()?.rootView
             let superview = unityView?.superview
             unityView?.removeFromSuperview()
             superview?.layoutIfNeeded()
-            GetUnityPlayerUtils()?.pause()
+            // GetUnityPlayerUtils()?.pause()
         }
     }
 

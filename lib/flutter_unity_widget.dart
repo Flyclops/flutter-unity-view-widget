@@ -2,6 +2,8 @@ library flutter_unity_widget;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -15,5 +17,5 @@ part 'src/controller.dart';
 part 'src/device_method.dart';
 part 'src/helpers/events.dart';
 part 'src/helpers/types.dart';
-part 'src/unity_view.dart';
 part 'src/unity_view_flutter_platform.dart';
+part 'src/unity_widget.dart';

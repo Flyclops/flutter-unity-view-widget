@@ -1,3 +1,29 @@
+## 2020.3.25
+
+* Fixed android freeze issue but only works with OpenGL3
+* Using unity versioning
+
+## 4.2.5+1
+
+* Removed MultiWindowSupport due to issus on Windows machine export not containing the class
+
+## 4.2.5
+
+* Fixed ios crashing on screen change and on hot reload
+
+## 4.2.4
+
+* Fixed issue with android freezing when screen loses focus
+
+## 4.2.3
+
+* Fixed iOS Run/Build errors: [471](https://github.com/juicycleff/flutter-unity-view-widget/issues/471)
+
+## 4.2.2
+
+* Added support for border radius
+* Exposed UI Level for iOS for rendering some UI components ontop of Android
+
 ## 4.2.1
 
 * Improved nullsafety
