@@ -3,6 +3,7 @@ package com.xraph.plugin.flutter_unity_widget
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.SurfaceTexture
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.WindowManager
+import android.view.Surface
+import android.view.TextureView
 import com.unity3d.player.IUnityPlayerLifecycleEvents
 import com.unity3d.player.UnityPlayer
 import java.util.concurrent.CopyOnWriteArraySet
@@ -68,6 +71,27 @@ class UnityPlayerUtils {
                 // context.runOnUiThread {
                     // context.window?.setFormat(PixelFormat.RGBA_8888)
                     unityPlayer = UnityPlayer(context, ule)
+
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                        val view = TextureView(activity)
+                        view.isOpaque = false
+                        view.surfaceTextureListener = object: TextureView.SurfaceTextureListener {
+                            override fun onSurfaceTextureAvailable(surface: SurfaceTexture,  width: Int, height: Int) {
+                                unityPlayer!!.displayChanged(0, Surface(surface))
+                            }
+
+                            override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
+                                return true
+                            }
+
+                            override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture , width: Int, height: Int) {
+                            }
+
+                            override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
+                            }
+                        }
+                        unityPlayer!!.addViewToPlayer(view, true)
+                    }
 
                     // wait a moment. fix unity cannot start when startup.
                     try {
