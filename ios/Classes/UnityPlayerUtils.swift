@@ -33,6 +33,7 @@ public func InitUnityIntegrationWithOptions(
     _ launchingOptions:  [UIApplication.LaunchOptionsKey: Any]?) {
     gArgc = argc
     gArgv = argv
+    gMachHeader = machHeader
     appLaunchOpts = launchingOptions
 }
 /***********************************PLUGIN_ENTRY END**************************************/
