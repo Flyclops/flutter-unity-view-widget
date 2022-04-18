@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.WindowManager
-import androidx.core.view.WindowCompat
 import com.unity3d.player.IUnityPlayerLifecycleEvents
 import com.unity3d.player.UnityPlayer
 import java.util.concurrent.CopyOnWriteArraySet
@@ -84,7 +83,7 @@ class UnityPlayerUtils {
                         context.window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                         context.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     } else {
-                        WindowCompat.setDecorFitsSystemWindows(activity!!.window, false);
+                        context.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                     }
 
                     // restore window layout
