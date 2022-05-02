@@ -1,5 +1,8 @@
 package com.xraph.plugin.flutter_unity_widget
 
+import android.view.Surface
+import android.view.TextureView
+import android.graphics.SurfaceTexture
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -68,6 +71,29 @@ class UnityPlayerUtils {
                 // context.runOnUiThread {
                     // context.window?.setFormat(PixelFormat.RGBA_8888)
                     unityPlayer = UnityPlayer(context, ule)
+
+                    // Use TextureView instead of SurfaceView
+                    // Fixes issue with Unity appearing beneath Flutter app.
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+                        val view = TextureView(activity)
+                        view.isOpaque = false
+                        view.surfaceTextureListener = object: TextureView.SurfaceTextureListener {
+                            override fun onSurfaceTextureAvailable(surface: SurfaceTexture,  width: Int, height: Int) {
+                                unityPlayer!!.displayChanged(0, Surface(surface))
+                            }
+
+                            override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
+                                return true
+                            }
+
+                            override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture , width: Int, height: Int) {
+                            }
+
+                            override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
+                            }
+                        }
+                        unityPlayer!!.addViewToPlayer(view, true)
+                    }
 
                     // wait a moment. fix unity cannot start when startup.
                     try {
