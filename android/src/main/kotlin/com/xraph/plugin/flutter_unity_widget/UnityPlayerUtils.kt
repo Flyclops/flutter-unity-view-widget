@@ -74,7 +74,7 @@ class UnityPlayerUtils {
 
                     // Use TextureView instead of SurfaceView
                     // Fixes issue with Unity appearing beneath Flutter app.
-                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
                         val view = TextureView(activity)
                         view.isOpaque = false
                         view.surfaceTextureListener = object: TextureView.SurfaceTextureListener {
