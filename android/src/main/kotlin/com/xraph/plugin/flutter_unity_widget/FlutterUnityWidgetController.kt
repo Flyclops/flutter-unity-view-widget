@@ -69,7 +69,7 @@ class FlutterUnityWidgetController(
     }
 
     fun bootstrap() {
-        this.lifecycleProvider.getLifecycle().addObserver(this)
+        this.lifecycleProvider.getLifecycle()?.addObserver(this)
     }
 
     override fun getView(): View {
@@ -114,7 +114,7 @@ class FlutterUnityWidgetController(
         // methodChannel.setMethodCallHandler(null)
 
         val lifecycle = lifecycleProvider.getLifecycle()
-        lifecycle.removeObserver(this)
+        lifecycle?.removeObserver(this)
 
         UnityPlayerUtils.disposed = true
     }

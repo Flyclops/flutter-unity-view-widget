@@ -5,5 +5,5 @@ import androidx.lifecycle.Lifecycle
 
 interface LifecycleProvider {
     @Nullable
-    fun getLifecycle(): Lifecycle
+    fun getLifecycle(): Lifecycle?
 }
