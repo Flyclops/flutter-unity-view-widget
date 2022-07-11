@@ -92,6 +92,7 @@ class FlutterUnityWidgetPlugin : FlutterPlugin, ActivityAware {
     override fun onDetachedFromActivity() {
         // UnityPlayerUtils.activity = null
         lifecycle = null
+        UnityPlayerUtils.quitPlayer()
     }
 
     /**
