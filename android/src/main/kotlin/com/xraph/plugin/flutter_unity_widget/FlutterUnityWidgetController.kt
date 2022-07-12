@@ -238,7 +238,7 @@ class FlutterUnityWidgetController(
     }
 
     override fun onUnityPlayerQuitted() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     private fun openNativeUnity() {
