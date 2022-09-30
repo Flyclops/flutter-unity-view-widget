@@ -168,15 +168,19 @@ class _UnityWidgetState extends State<UnityWidget> {
     _controller.complete(controller);
     final UnityCreatedCallback? onUnityCreated = widget.onUnityCreated;
 
-    if (Platform.isAndroid) {
-      await controller.pause();
-      Future.delayed(
-        Duration(milliseconds: 100),
-        () async {
-          await controller.resume();
-        },
-      );
-    }
+
+    // commenting this out because it sometimes doesn't resume unity at all
+    // leaving it unresponsive
+    // apparently this was a fix for a crash on hot reload, which is lower priority
+    // if (Platform.isAndroid) {
+    //   await controller.pause();
+    //   Future.delayed(
+    //     Duration(milliseconds: 100),
+    //     () async {
+    //       await controller.resume();
+    //     },
+    //   );
+    // }
 
     if (onUnityCreated != null) {
       onUnityCreated(controller);
