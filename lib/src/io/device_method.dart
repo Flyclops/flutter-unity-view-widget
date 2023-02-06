@@ -54,7 +54,9 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
   /// This method is called when the plugin is first initialized.
   @override
   Future<void> init(int unityId) {
+    print("👾: START MethodChannelUnityWidget :: init ${unityId}");
     MethodChannel channel = ensureChannelInitialized(unityId);
+    print("👾: END MethodChannelUnityWidget :: init ${unityId}");
     return channel.invokeMethod<void>('unity#waitForUnity');
   }
 
@@ -62,7 +64,9 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
   @override
   Future<void> dispose({int? unityId}) async {
     try {
+      print("👾: START MethodChannelUnityWidget :: dispose ${unityId}");
       if (unityId != null) await channel(unityId).invokeMethod('unity#dispose');
+      print("👾: END MethodChannelUnityWidget :: dispose ${unityId}");
     } catch (e) {
       // ignore
     }
@@ -81,67 +85,84 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
       _unityStreamController.stream.where((event) => event.unityId == unityId);
 
   Future<dynamic> _handleMethodCall(MethodCall call, int unityId) async {
+    print("👾: START MethodChannelUnityWidget :: _handleMethodCall ${unityId}");
+
     switch (call.method) {
       case "events#onUnityMessage":
+        print("👾: MethodChannelUnityWidget :: onUnityMessage");
         _unityStreamController.add(UnityMessageEvent(unityId, call.arguments));
         break;
       case "events#onUnityUnloaded":
+        print("👾: MethodChannelUnityWidget :: onUnityUnloaded");
         _unityStreamController.add(UnityLoadedEvent(unityId, call.arguments));
         break;
       case "events#onUnitySceneLoaded":
+        print("👾: MethodChannelUnityWidget :: onUnitySceneLoaded");
         _unityStreamController.add(UnitySceneLoadedEvent(
             unityId, SceneLoaded.fromMap(call.arguments)));
         break;
       case "events#onUnityCreated":
+        print("👾: MethodChannelUnityWidget :: onUnityCreated");
         _unityStreamController.add(UnityCreatedEvent(unityId, call.arguments));
         break;
       default:
+        print("👾: ERROR MethodChannelUnityWidget :: _handleMethodCall");
         throw UnimplementedError("Unimplemented ${call.method} method");
     }
+    print("👾: END MethodChannelUnityWidget :: _handleMethodCall");
   }
 
   @override
   Future<bool?> isPaused({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: isPaused ${unityId}");
     return await channel(unityId).invokeMethod('unity#isPaused');
   }
 
   @override
   Future<bool?> isReady({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: isReady ${unityId}");
     return await channel(unityId).invokeMethod('unity#isReady');
   }
 
   @override
   Future<bool?> isLoaded({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: isLoaded ${unityId}");
     return await channel(unityId).invokeMethod('unity#isLoaded');
   }
 
   @override
   Future<bool?> inBackground({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: inBackground ${unityId}");
     return await channel(unityId).invokeMethod('unity#inBackground');
   }
 
   @override
   Future<bool?> createUnityPlayer({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: createUnityPlayer ${unityId}");
     return await channel(unityId).invokeMethod('unity#createPlayer');
   }
 
   @override
   Stream<UnityMessageEvent> onUnityMessage({required int unityId}) {
+    print("👾: MethodChannelUnityWidget :: onUnityMessage ${unityId}");
     return _events(unityId).whereType<UnityMessageEvent>();
   }
 
   @override
   Stream<UnityLoadedEvent> onUnityUnloaded({required int unityId}) {
+    print("👾: MethodChannelUnityWidget :: onUnityUnloaded ${unityId}");
     return _events(unityId).whereType<UnityLoadedEvent>();
   }
 
   @override
   Stream<UnityCreatedEvent> onUnityCreated({required int unityId}) {
+    print("👾: MethodChannelUnityWidget :: onUnityCreated ${unityId}");
     return _events(unityId).whereType<UnityCreatedEvent>();
   }
 
   @override
   Stream<UnitySceneLoadedEvent> onUnitySceneLoaded({required int unityId}) {
+    print("👾: MethodChannelUnityWidget :: onUnitySceneLoaded ${unityId}");
     return _events(unityId).whereType<UnitySceneLoadedEvent>();
   }
 
@@ -158,6 +179,7 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
     bool? unityWebSource,
     String? unitySrcUrl,
   }) {
+    print("👾: START MethodChannelUnityWidget :: buildViewWithTextDirection");
     final String _viewType = 'plugin.xraph.com/unity_view';
 
     if (useAndroidViewSurf != null) useAndroidViewSurface = useAndroidViewSurf;
@@ -181,12 +203,14 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
         );
       }
 
+      print("👾: MethodChannelUnityWidget :: return PlatformViewLink()");
       return PlatformViewLink(
         viewType: _viewType,
         surfaceFactory: (
           BuildContext context,
           PlatformViewController controller,
         ) {
+          print("👾: MethodChannelUnityWidget :: return AndroidViewSurface()");
           return AndroidViewSurface(
             controller: controller as AndroidViewController,
             gestureRecognizers: gestureRecognizers ??
@@ -195,6 +219,7 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
           );
         },
         onCreatePlatformView: (PlatformViewCreationParams params) {
+          print("👾: START MethodChannelUnityWidget :: onCreatePlatformView");
           final controller = PlatformViewsService.initExpensiveAndroidView(
             id: params.id,
             viewType: _viewType,
@@ -204,6 +229,7 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
             onFocus: () => params.onFocusChanged(true),
           );
 
+          print("👾: END MethodChannelUnityWidget :: onCreatePlatformView");
           controller
             ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
             ..addOnPlatformViewCreatedListener(onPlatformViewCreated)
@@ -274,26 +300,31 @@ class MethodChannelUnityWidget extends UnityWidgetPlatform {
 
   @override
   Future<void> pausePlayer({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: pausePlayer ${unityId}");
     await channel(unityId).invokeMethod('unity#pausePlayer');
   }
 
   @override
   Future<void> resumePlayer({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: resumePlayer ${unityId}");
     await channel(unityId).invokeMethod('unity#resumePlayer');
   }
 
   @override
   Future<void> openInNativeProcess({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: openInNativeProcess ${unityId}");
     await channel(unityId).invokeMethod('unity#openInNativeProcess');
   }
 
   @override
   Future<void> unloadPlayer({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: unloadPlayer ${unityId}");
     await channel(unityId).invokeMethod('unity#unloadPlayer');
   }
 
   @override
   Future<void> quitPlayer({required int unityId}) async {
+    print("👾: MethodChannelUnityWidget :: quitPlayer ${unityId}");
     await channel(unityId).invokeMethod('unity#quitPlayer');
   }
 }

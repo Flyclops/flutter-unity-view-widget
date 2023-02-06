@@ -22,7 +22,11 @@ class MobileUnityWidgetController extends UnityWidgetController {
 
   MobileUnityWidgetController._(this._unityWidgetState,
       {required this.unityId}) {
+    print(
+        "👾: START MobileUnityWidgetController :: ctor MobileUnityWidgetController() ${unityId}");
     _connectStreams(unityId);
+    print(
+        "👾: END MobileUnityWidgetController :: ctor MobileUnityWidgetController() ${unityId}");
   }
 
   /// Initialize [UnityWidgetController] with [id]
@@ -30,7 +34,10 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// in [UnityWidget.onUnityCreated] callback.
   static Future<MobileUnityWidgetController> init(
       int id, MobileUnityWidgetState unityWidgetState) async {
+    print("👾: START MobileUnityWidgetController :: init ${id}");
     await UnityWidgetPlatform.instance.init(id);
+    print("👾: END MobileUnityWidgetController :: init ${id}");
+
     return MobileUnityWidgetController._(
       unityWidgetState,
       unityId: id,
@@ -71,6 +78,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// Checks to see if unity player is ready to be used
   /// Returns `true` if unity player is ready.
   Future<bool?>? isReady() {
+    print("👾: MobileUnityWidgetController :: isReady ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.isReady(unityId: unityId);
     }
@@ -80,6 +89,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// Get the current pause state of the unity player
   /// Returns `true` if unity player is paused.
   Future<bool?>? isPaused() {
+    print("👾: MobileUnityWidgetController :: isPaused ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.isPaused(unityId: unityId);
     }
@@ -89,6 +100,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// Get the current load state of the unity player
   /// Returns `true` if unity player is loaded.
   Future<bool?>? isLoaded() {
+    print("👾: MobileUnityWidgetController :: isLoaded ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.isLoaded(unityId: unityId);
     }
@@ -98,6 +111,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// Helper method to know if Unity has been put in background mode (WIP) unstable
   /// Returns `true` if unity player is in background.
   Future<bool?>? inBackground() {
+    print("👾: MobileUnityWidgetController :: inBackground ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.inBackground(unityId: unityId);
     }
@@ -108,6 +123,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// or is in unloaded state. Use [isLoaded] to check.
   /// Returns `true` if unity player was created succesfully.
   Future<bool?>? create() {
+    print("👾: MobileUnityWidgetController :: create ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.createUnityPlayer(unityId: unityId);
     }
@@ -122,6 +139,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// postMessage("GameManager", "openScene", "ThirdScene")
   /// ```
   Future<void>? postMessage(String gameObject, methodName, message) {
+    print("👾: MobileUnityWidgetController :: postMessage ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.postMessage(
         unityId: unityId,
@@ -155,6 +174,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
 
   /// Pause the unity in-game player with this method
   Future<void>? pause() {
+    print("👾: MobileUnityWidgetController :: pause ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.pausePlayer(unityId: unityId);
     }
@@ -163,6 +184,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
 
   /// Resume the unity in-game player with this method idf it is in a paused state
   Future<void>? resume() {
+    print("👾: MobileUnityWidgetController :: resume ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.resumePlayer(unityId: unityId);
     }
@@ -172,6 +195,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// Sometimes you want to open unity in it's own process and openInNativeProcess does just that.
   /// It works for Android and iOS is WIP
   Future<void>? openInNativeProcess() {
+    print("👾: MobileUnityWidgetController :: openInNativeProcess ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.openInNativeProcess(unityId: unityId);
     }
@@ -181,6 +206,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   /// Unloads unity player from th current process (Works on Android only for now)
   /// iOS is WIP. For more information please read [Unity Docs](https://docs.unity3d.com/2020.2/Documentation/Manual/UnityasaLibrary.html)
   Future<void>? unload() {
+    print("👾: MobileUnityWidgetController :: unload ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.unloadPlayer(unityId: unityId);
     }
@@ -189,6 +216,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
 
   /// Quits unity player. Note that this kills the current flutter process, thus quiting the app
   Future<void>? quit() {
+    print("👾: MobileUnityWidgetController :: quit ${unityId}");
+
     if (!_unityWidgetState.widget.enablePlaceholder) {
       return UnityWidgetPlatform.instance.quitPlayer(unityId: unityId);
     }
@@ -197,6 +226,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
 
   /// cancel the subscriptions when dispose called
   void _cancelSubscriptions() {
+    print("👾: MobileUnityWidgetController :: _cancelSubscriptions ${unityId}");
+
     _onUnityMessageSub?.cancel();
     _onUnitySceneLoadedSub?.cancel();
     _onUnityUnloadedSub?.cancel();
@@ -207,6 +238,8 @@ class MobileUnityWidgetController extends UnityWidgetController {
   }
 
   void dispose() {
+    print("👾: MobileUnityWidgetController :: dispose ${unityId}");
+
     _cancelSubscriptions();
     UnityWidgetPlatform.instance.dispose(unityId: unityId);
   }
