@@ -52,6 +52,7 @@ class FlutterUnityWidgetController(
 
     init {
         Log.d(LOG_TAG, "INIT")
+        Log.d(LOG_TAG, "IVAN WAS HERE")
 
         Log.d(LOG_TAG, "START UnityPlayerUtils.controllers.add(this)")
         UnityPlayerUtils.controllers.add(this)
@@ -81,7 +82,9 @@ class FlutterUnityWidgetController(
             Log.d(LOG_TAG, "(1) createPlayer")
             createPlayer()
             Log.d(LOG_TAG, "(2) refocusUnity")
-            refocusUnity()
+            // refocusUnity takes almost exactly 4 seconds before Unity reports the message:
+            // Unity                   com.flyclops.domino.android          W  Timeout while trying to pause the Unity Engine.
+            //refocusUnity()
             Log.d(LOG_TAG, "END UnityPlayerUtils.unityPlayer == null")
         } else if(!UnityPlayerUtils.unityLoaded) {
             Log.d(LOG_TAG, "START !UnityPlayerUtils.unityLoaded")
@@ -103,7 +106,6 @@ class FlutterUnityWidgetController(
 
     //#region Flutter Overrides
     override fun getView(): View {
-        Log.d(LOG_TAG, "getView()")
 //        if(UnityPlayerUtils.unityPlayer == null)
 //            return UnityPlayerUtils.unityPlayer!!
 
@@ -465,7 +467,11 @@ class FlutterUnityWidgetController(
         Log.d(LOG_TAG, "START refocusUnity")
 
         UnityPlayerUtils.resume()
+
+        // I THINK THIS IS CAUSING
+        // Timeout while trying to pause the Unity Engine.
         UnityPlayerUtils.pause()
+        
         UnityPlayerUtils.resume()
 
         Log.d(LOG_TAG, "END refocusUnity")
