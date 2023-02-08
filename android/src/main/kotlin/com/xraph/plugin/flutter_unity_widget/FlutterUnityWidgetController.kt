@@ -68,7 +68,11 @@ class FlutterUnityWidgetController(
 
         if(UnityPlayerUtils.unityPlayer == null) {
             createPlayer()
-            refocusUnity()
+            // Commented out to:
+            // - Fix possible 4 second delay caused by pausing Unity while in the Android splash screen.
+            //   This could also be seen in logcat as "Timeout while trying to pause the Unity Engine."
+            // - Fix ANR caused by interacting with app during splash screen while Unity is waiting to pause itself
+            //refocusUnity()
         } else if(!UnityPlayerUtils.unityLoaded) {
             createPlayer()
             attachToView()
