@@ -25,7 +25,8 @@ A new Flutter plugin.
 
   s.xcconfig = {
      'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/../UnityLibrary" "${PODS_ROOT}/../.symlinks/flutter/ios-release" "${PODS_CONFIGURATION_BUILD_DIR}"',
-     'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework ${PODS_LIBRARIES}'
+     'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework ${PODS_LIBRARIES}',
+     'ENABLE_BITCODE' => 'NO'
   }
   
   s.resource_bundles = {'flutter_unity_widget_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
